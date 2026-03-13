@@ -6,18 +6,18 @@ This Flutter app builds for 6 platforms automatically via GitHub Actions.
 
 | Platform | Status | Download |
 |----------|--------|----------|
-| Android | ✅ Built | [Download APK](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/android-apk) |
-| iOS | ✅ Built | [Download App](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/ios-app) |
-| Web | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/web) |
-| Linux | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/linux) |
-| Windows | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/windows) |
-| macOS | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/macos) |
+| Android | ✅ Built | [Download APK](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/android-apk) |
+| iOS | ✅ Built | [Download App](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/ios-app) |
+| Web | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/web) |
+| Linux | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/linux) |
+| Windows | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/windows) |
+| macOS | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113/artifacts/macos) |
 
 ## Build Details
 
-- **Workflow Run:** [#${RUN_ID}](https://github.com/${REPO}/actions/runs/${RUN_ID})
-- **Commit:** ${SHA:0:7}
-- **Branch:** ${BRANCH}
+- **Workflow Run:** [#23034719113](https://github.com/jackbauertv24-droid/an-app/actions/runs/23034719113)
+- **Commit:** 5b22e56
+- **Branch:** main
 - **Artifacts Retention:** 14 days
 
 ## How to Build Locally
