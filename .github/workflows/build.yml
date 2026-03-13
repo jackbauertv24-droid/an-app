@@ -7,7 +7,6 @@ on:
     branches: [main, master]
 
 jobs:
-  # Android Build
   build-android:
     runs-on: ubuntu-latest
     steps:
@@ -39,54 +38,23 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       
-      - name: Build App Bundle (Play Store)
+      - name: Build App Bundle
         run: flutter build appbundle --release
       
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 30
       
-      - name: Upload App Bundle artifact
+      - name: Upload App Bundle
         uses: actions/upload-artifact@v4
         with:
           name: android-aab-${{ github.sha }}
           path: build/app/outputs/bundle/release/app-release.aab
           retention-days: 30
 
-  # iOS Build
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.x'
-          channel: 'stable'
-          cache: true
-      
-      - name: Install dependencies
-        run: flutter pub get
-      
-      - name: Run tests
-        run: flutter test
-      
-      - name: Build iOS (no codesign)
-        run: flutter build ios --release --no-codesign
-      
-      - name: Upload iOS artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-app-${{ github.sha }}
-          path: build/ios/iphoneos/Runner.app
-          retention-days: 30
-
-  # Web Build
   build-web:
     runs-on: ubuntu-latest
     steps:
@@ -106,17 +74,51 @@ jobs:
       - name: Run tests
         run: flutter test
       
+      - name: Create web platform
+        run: flutter create --platforms=web .
+      
       - name: Build Web
         run: flutter build web --release
       
-      - name: Upload Web artifact
+      - name: Upload Web
         uses: actions/upload-artifact@v4
         with:
           name: web-${{ github.sha }}
           path: build/web
           retention-days: 30
 
-  # Linux Build
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: 'stable'
+          cache: true
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Run tests
+        run: flutter test
+      
+      - name: Create iOS platform
+        run: flutter create --platforms=ios .
+      
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+      
+      - name: Upload iOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app-${{ github.sha }}
+          path: build/ios/iphoneos/Runner.app
+          retention-days: 30
+
   build-linux:
     runs-on: ubuntu-latest
     steps:
@@ -141,17 +143,19 @@ jobs:
       - name: Enable Linux desktop
         run: flutter config --enable-linux-desktop
       
+      - name: Create Linux platform
+        run: flutter create --platforms=linux .
+      
       - name: Build Linux
         run: flutter build linux --release
       
-      - name: Upload Linux artifact
+      - name: Upload Linux
         uses: actions/upload-artifact@v4
         with:
           name: linux-${{ github.sha }}
           path: build/linux/x64/release/bundle
           retention-days: 30
 
-  # Windows Build
   build-windows:
     runs-on: windows-latest
     steps:
@@ -171,17 +175,19 @@ jobs:
       - name: Enable Windows desktop
         run: flutter config --enable-windows-desktop
       
+      - name: Create Windows platform
+        run: flutter create --platforms=windows .
+      
       - name: Build Windows
         run: flutter build windows --release
       
-      - name: Upload Windows artifact
+      - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ github.sha }}
           path: build/windows/x64/runner/Release
           retention-days: 30
 
-  # macOS Build
   build-macos:
     runs-on: macos-latest
     steps:
@@ -201,10 +207,13 @@ jobs:
       - name: Enable macOS desktop
         run: flutter config --enable-macos-desktop
       
+      - name: Create macOS platform
+        run: flutter create --platforms=macos .
+      
       - name: Build macOS
         run: flutter build macos --release
       
-      - name: Upload macOS artifact
+      - name: Upload macOS
         uses: actions/upload-artifact@v4
         with:
           name: macos-${{ github.sha }}
