@@ -2,6 +2,12 @@
 
 This Flutter app builds for 6 platforms automatically via GitHub Actions.
 
+## 🌐 Live Web Demo
+
+**[View Web App](https://jackbauertv24-droid.github.io/an-app/)**
+
+The web version is automatically deployed to GitHub Pages on every push to main.
+
 ## Download Builds
 
 | Platform | Status | Download |
@@ -43,5 +49,10 @@ flutter build macos --release      # macOS
 ## CI/CD
 
 This project uses GitHub Actions to build all platforms automatically on every push to main/master branch.
+
+### Deployment
+
+- **Web**: Automatically deployed to GitHub Pages (`gh-pages` branch)
+- **Other platforms**: Available as downloadable artifacts (14 days retention)
 
 After each successful build, this README is updated with download links to the artifacts.

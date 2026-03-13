@@ -61,7 +61,7 @@ jobs:
       - name: Run tests
         run: flutter test
       - name: Build Web
-        run: flutter build web --release
+        run: flutter build web --release --base-href=/an-app/
       - name: Upload Web
         uses: actions/upload-artifact@v4
         with:
@@ -200,3 +200,21 @@ jobs:
           git add README.md
           git diff --staged --quiet || git commit -m "Update README with build artifacts [skip ci]"
           git push
+
+  deploy-web:
+    needs: build-web
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Download web artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: ./web-build
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web-build
+          publish_branch: gh-pages
+          force_orphan: true
