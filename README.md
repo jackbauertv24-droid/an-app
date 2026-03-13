@@ -12,17 +12,17 @@ The web version is automatically deployed to GitHub Pages on every push to main.
 
 | Platform | Status | Download |
 |----------|--------|----------|
-| Android | ✅ Built | [Download APK](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952/artifacts/android-apk) |
-| iOS | ✅ Built | [Download App](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952/artifacts/ios-app) |
+| Android | ✅ Built | [Download APK](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142/artifacts/android-apk) |
+| iOS | ✅ Built | [Download App](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142/artifacts/ios-app) |
 | Web | ✅ Deployed | [Live on GitHub Pages](https://jackbauertv24-droid.github.io/an-app/) |
-| Linux | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952/artifacts/linux) |
-| Windows | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952/artifacts/windows) |
-| macOS | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952/artifacts/macos) |
+| Linux | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142/artifacts/linux) |
+| Windows | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142/artifacts/windows) |
+| macOS | ✅ Built | [Download](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142/artifacts/macos) |
 
 ## Build Details
 
-- **Workflow Run:** [#23035045952](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035045952)
-- **Commit:** e438349
+- **Workflow Run:** [#23035228142](https://github.com/jackbauertv24-droid/an-app/actions/runs/23035228142)
+- **Commit:** d28a569
 - **Branch:** main
 - **Artifacts Retention:** 14 days
 
