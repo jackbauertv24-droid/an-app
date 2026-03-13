@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: write
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -212,3 +215,78 @@ jobs:
           name: macos
           path: build/macos/Build/Products/Release/an_app.app
           retention-days: 14
+
+  generate-readme:
+    needs: [build-android, build-web, build-ios, build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate README with download links
+        run: |
+          RUN_ID="${{ github.run_id }}"
+          REPO="${{ github.repository }}"
+          SHA="${{ github.sha }}"
+          BRANCH="${{ github.ref_name }}"
+          
+          cat > README.md << README
+# Flutter Multi-Platform App
+
+This Flutter app builds for 6 platforms automatically via GitHub Actions.
+
+## Download Builds
+
+| Platform | Status | Download |
+|----------|--------|----------|
+| Android | ✅ Built | [Download APK](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/android-apk) |
+| iOS | ✅ Built | [Download App](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/ios-app) |
+| Web | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/web) |
+| Linux | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/linux) |
+| Windows | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/windows) |
+| macOS | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/macos) |
+
+## Build Details
+
+- **Workflow Run:** [#${RUN_ID}](https://github.com/${REPO}/actions/runs/${RUN_ID})
+- **Commit:** ${SHA:0:7}
+- **Branch:** ${BRANCH}
+- **Artifacts Retention:** 14 days
+
+## How to Build Locally
+
+\`\`\`bash
+# Install Flutter: https://flutter.dev/docs/get-started/install
+
+# Get dependencies
+flutter pub get
+
+# Create platforms (if not exists)
+flutter create --platforms=android,ios,web,linux,windows,macos .
+
+# Build for specific platform
+flutter build apk --release        # Android
+flutter build ios --release        # iOS
+flutter build web --release        # Web
+flutter build linux --release      # Linux
+flutter build windows --release    # Windows
+flutter build macos --release      # macOS
+\`\`\`
+
+## CI/CD
+
+This project uses GitHub Actions to build all platforms automatically on every push to main/master branch.
+
+After each successful build, this README is updated with download links to the artifacts.
+README
+
+      - name: Commit and push README
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update README with build artifacts [skip ci]"
+          git push
