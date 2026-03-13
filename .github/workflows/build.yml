@@ -227,62 +227,60 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Generate README with download links
+        env:
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          BRANCH: ${{ github.ref_name }}
         run: |
-          RUN_ID="${{ github.run_id }}"
-          REPO="${{ github.repository }}"
-          SHA="${{ github.sha }}"
-          BRANCH="${{ github.ref_name }}"
-          
-          cat > README.md << README
-# Flutter Multi-Platform App
-
-This Flutter app builds for 6 platforms automatically via GitHub Actions.
-
-## Download Builds
-
-| Platform | Status | Download |
-|----------|--------|----------|
-| Android | ✅ Built | [Download APK](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/android-apk) |
-| iOS | ✅ Built | [Download App](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/ios-app) |
-| Web | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/web) |
-| Linux | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/linux) |
-| Windows | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/windows) |
-| macOS | ✅ Built | [Download](https://github.com/${REPO}/actions/runs/${RUN_ID}/artifacts/macos) |
-
-## Build Details
-
-- **Workflow Run:** [#${RUN_ID}](https://github.com/${REPO}/actions/runs/${RUN_ID})
-- **Commit:** ${SHA:0:7}
-- **Branch:** ${BRANCH}
-- **Artifacts Retention:** 14 days
-
-## How to Build Locally
-
-\`\`\`bash
-# Install Flutter: https://flutter.dev/docs/get-started/install
-
-# Get dependencies
-flutter pub get
-
-# Create platforms (if not exists)
-flutter create --platforms=android,ios,web,linux,windows,macos .
-
-# Build for specific platform
-flutter build apk --release        # Android
-flutter build ios --release        # iOS
-flutter build web --release        # Web
-flutter build linux --release      # Linux
-flutter build windows --release    # Windows
-flutter build macos --release      # macOS
-\`\`\`
-
-## CI/CD
-
-This project uses GitHub Actions to build all platforms automatically on every push to main/master branch.
-
-After each successful build, this README is updated with download links to the artifacts.
-README
-
+          echo "# Flutter Multi-Platform App" > README.md
+          echo "" >> README.md
+          echo "This Flutter app builds for 6 platforms automatically via GitHub Actions." >> README.md
+          echo "" >> README.md
+          echo "## Download Builds" >> README.md
+          echo "" >> README.md
+          echo "| Platform | Status | Download |" >> README.md
+          echo "|----------|--------|----------|" >> README.md
+          echo "| Android | ✅ Built | [Download APK](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/android-apk) |" >> README.md
+          echo "| iOS | ✅ Built | [Download App](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/ios-app) |" >> README.md
+          echo "| Web | ✅ Built | [Download](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/web) |" >> README.md
+          echo "| Linux | ✅ Built | [Download](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/linux) |" >> README.md
+          echo "| Windows | ✅ Built | [Download](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/windows) |" >> README.md
+          echo "| macOS | ✅ Built | [Download](https://github.com/\${REPO}/actions/runs/\${RUN_ID}/artifacts/macos) |" >> README.md
+          echo "" >> README.md
+          echo "## Build Details" >> README.md
+          echo "" >> README.md
+          echo "- **Workflow Run:** [#\${RUN_ID}](https://github.com/\${REPO}/actions/runs/\${RUN_ID})" >> README.md
+          echo "- **Commit:** \${SHA:0:7}" >> README.md
+          echo "- **Branch:** \${BRANCH}" >> README.md
+          echo "- **Artifacts Retention:** 14 days" >> README.md
+          echo "" >> README.md
+          echo "## How to Build Locally" >> README.md
+          echo "" >> README.md
+          echo '```bash' >> README.md
+          echo "# Install Flutter: https://flutter.dev/docs/get-started/install" >> README.md
+          echo "" >> README.md
+          echo "# Get dependencies" >> README.md
+          echo "flutter pub get" >> README.md
+          echo "" >> README.md
+          echo "# Create platforms (if not exists)" >> README.md
+          echo "flutter create --platforms=android,ios,web,linux,windows,macos ." >> README.md
+          echo "" >> README.md
+          echo "# Build for specific platform" >> README.md
+          echo "flutter build apk --release        # Android" >> README.md
+          echo "flutter build ios --release        # iOS" >> README.md
+          echo "flutter build web --release        # Web" >> README.md
+          echo "flutter build linux --release      # Linux" >> README.md
+          echo "flutter build windows --release    # Windows" >> README.md
+          echo "flutter build macos --release      # macOS" >> README.md
+          echo '```' >> README.md
+          echo "" >> README.md
+          echo "## CI/CD" >> README.md
+          echo "" >> README.md
+          echo "This project uses GitHub Actions to build all platforms automatically on every push to main/master branch." >> README.md
+          echo "" >> README.md
+          echo "After each successful build, this README is updated with download links to the artifacts." >> README.md
+      
       - name: Commit and push README
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
