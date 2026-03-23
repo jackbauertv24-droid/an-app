@@ -205,10 +205,11 @@ class HomeScreen extends StatelessWidget {
                     },
                     onAddToCart: () {
                       context.read<CartProvider>().addItem(product);
+                      ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('${l10n.getProductName(product.id)} ${l10n.addToCart}'),
-                          duration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 2),
                           action: SnackBarAction(
                             label: l10n.cart,
                             onPressed: () {

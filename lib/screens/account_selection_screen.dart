@@ -212,14 +212,15 @@ class _AccountSelectionScreenState extends State<AccountSelectionScreen> {
                         ],
                         const SizedBox(height: 24),
                         SizedBox(
-                          height: 48,
+                          width: double.infinity,
+                          height: 56,
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _handleLogin,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFD4A054),
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                             child: _isLoading

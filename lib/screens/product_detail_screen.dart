@@ -142,10 +142,10 @@ class ProductDetailScreen extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: () {
                 context.read<CartProvider>().addItem(product);
+                ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('$productName ${l10n.addToCart}'),
-                    behavior: SnackBarBehavior.floating,
                     duration: const Duration(seconds: 2),
                   ),
                 );
