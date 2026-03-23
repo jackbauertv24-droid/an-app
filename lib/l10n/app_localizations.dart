@@ -154,6 +154,15 @@ class AppLocalizations {
   String get restaurantType => translate('restaurantType');
   String get retailType => translate('retailType');
 
+  // Product Descriptions
+  String get descLager => translate('descLager');
+  String get descLagerLarge => translate('descLagerLarge');
+  String get descPureDraft => translate('descPureDraft');
+  String get desc1903 => translate('desc1903');
+  String get descStout => translate('descStout');
+  String get descWhiteAle => translate('descWhiteAle');
+  String get descPremium => translate('descPremium');
+
   // Helper methods
   String productsAvailableText(int count) => '$count ${translate('productsAvailable')}';
   String itemsText(int count) => '$count ${count > 1 ? translate('items') : translate('item')}';
@@ -186,6 +195,36 @@ class AppLocalizations {
         return productPremium500;
       default:
         return productId;
+    }
+  }
+
+  // Product description by ID
+  String getProductDescription(String productId) {
+    switch (productId) {
+      case 'tsingtao-001':
+      case 'tsingtao-002':
+      case 'tsingtao-003':
+        return descLager;
+      case 'tsingtao-004':
+      case 'tsingtao-005':
+        return descLagerLarge;
+      case 'tsingtao-006':
+      case 'tsingtao-007':
+        return descPureDraft;
+      case 'tsingtao-008':
+      case 'tsingtao-009':
+        return desc1903;
+      case 'tsingtao-010':
+      case 'tsingtao-011':
+        return descStout;
+      case 'tsingtao-012':
+      case 'tsingtao-013':
+        return descWhiteAle;
+      case 'tsingtao-014':
+      case 'tsingtao-015':
+        return descPremium;
+      default:
+        return '';
     }
   }
 

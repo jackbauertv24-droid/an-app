@@ -82,5 +82,12 @@
   "accountCornerMarket": "角落烟酒专卖店",
   "barType": "酒吧",
   "restaurantType": "餐厅",
-  "retailType": "零售店"
+  "retailType": "零售店",
+  "descLager": "经典中国啤酒，口感清爽纯净。淡金色酒体，带有淡淡啤酒花香气。",
+  "descLagerLarge": "大瓶装适合分享。中餐厅传统首选。",
+  "descPureDraft": "优质未经巴氏杀菌啤酒，口感新鲜顺滑。酒体轻盈，余韵清爽。",
+  "desc1903": "优质精酿啤酒，纪念青岛啤酒1903年传承。风味更加醇厚。",
+  "descStout": "浓郁黑啤，带有烘焙麦芽风味。咖啡与巧克力香气。",
+  "descWhiteAle": "清爽小麦啤酒，带有柑橘和香料气息。金黄色浑浊酒体。",
+  "descPremium": "优质出口级啤酒，风味更加醇厚。经典绿瓶包装。"
 }

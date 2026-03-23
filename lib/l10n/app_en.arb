@@ -82,5 +82,12 @@
   "accountCornerMarket": "Corner Market & Spirits",
   "barType": "Bar",
   "restaurantType": "Restaurant",
-  "retailType": "Retail"
+  "retailType": "Retail",
+  "descLager": "Classic Chinese lager with a crisp, clean taste. Light golden color with subtle hop aroma.",
+  "descLagerLarge": "Large format bottles for sharing. Traditional Chinese restaurant favorite.",
+  "descPureDraft": "Premium unpasteurized lager with fresh, smooth taste. Lighter body with clean finish.",
+  "desc1903": "Premium craft lager celebrating TsingTao's heritage since 1903. Richer flavor profile.",
+  "descStout": "Rich dark stout with roasted malt flavors. Notes of coffee and chocolate.",
+  "descWhiteAle": "Refreshing wheat beer with hints of citrus and spice. Hazy golden appearance.",
+  "descPremium": "Premium export quality lager with enhanced flavor depth. Green bottle."
 }

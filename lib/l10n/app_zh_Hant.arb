@@ -82,5 +82,12 @@
   "accountCornerMarket": "角落煙酒專賣店",
   "barType": "酒吧",
   "restaurantType": "餐廳",
-  "retailType": "零售店"
+  "retailType": "零售店",
+  "descLager": "經典中國啤酒，口感清爽純淨。淡金色酒體，帶有淡淡啤酒花香氣。",
+  "descLagerLarge": "大瓶裝適合分享。中餐廳傳統首選。",
+  "descPureDraft": "優質未經巴氏殺菌啤酒，口感新鮮順滑。酒體輕盈，餘韻清爽。",
+  "desc1903": "優質精釀啤酒，紀念青島啤酒1903年傳承。風味更加醇厚。",
+  "descStout": "濃郁黑啤，帶有烘焙麥芽風味。咖啡與巧克力香氣。",
+  "descWhiteAle": "清爽小麥啤酒，帶有柑橘和香料氣息。金黃色渾濁酒體。",
+  "descPremium": "優質出口級啤酒，風味更加醇厚。經典綠瓶包裝。"
 }
