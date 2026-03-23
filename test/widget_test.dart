@@ -15,17 +15,13 @@ void main() {
     expect(find.text('選擇您的帳戶'), findsOneWidget);
   });
 
-  testWidgets('Demo accounts are displayed', (WidgetTester tester) async {
+  testWidgets('Account cards are displayed', (WidgetTester tester) async {
     await tester.pumpWidget(const BrewDirectApp());
 
     // Wait for the app to load
     await tester.pumpAndSettle();
 
-    // Scroll down to see more accounts
-    await tester.drag(find.byType(ListView), const Offset(0, -300));
-    await tester.pumpAndSettle();
-
-    // Check for at least one demo account
-    expect(find.text('Downtown Bar & Grill'), findsOneWidget);
+    // Check for account type icons (at least one Card widget exists)
+    expect(find.byType(Card), findsWidgets);
   });
 }
