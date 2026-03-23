@@ -1,6 +1,7 @@
 {
   "@@locale": "zh_Hans",
-  "appTitle": "青啤直销",
+  "appTitle": "青島直销",
+  "wholesalerBrand": "青島",
   "wholesaleDistribution": "啤酒批发配送",
   "selectAccount": "选择您的账户",
   "productCatalog": "产品目录",

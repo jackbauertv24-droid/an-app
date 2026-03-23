@@ -145,6 +145,23 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    l10n.wholesalerBrand,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF8B4513),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.wholesaleDistribution,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   Consumer<AccountProvider>(
                     builder: (context, accountProvider, child) {
                       final account = accountProvider.currentAccount;

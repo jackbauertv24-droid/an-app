@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "appTitle": "BrewDirect",
+  "wholesalerBrand": "青島",
   "wholesaleDistribution": "Wholesale Beer Distribution",
   "selectAccount": "Select Your Account",
   "productCatalog": "Product Catalog",

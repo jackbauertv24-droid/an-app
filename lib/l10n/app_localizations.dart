@@ -67,6 +67,7 @@ class AppLocalizations {
 
   // General strings
   String get appTitle => translate('appTitle');
+  String get wholesalerBrand => translate('wholesalerBrand');
   String get wholesaleDistribution => translate('wholesaleDistribution');
   String get selectAccount => translate('selectAccount');
   String get productCatalog => translate('productCatalog');
