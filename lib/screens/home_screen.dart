@@ -11,54 +11,8 @@ import 'order_history_screen.dart';
 import 'developer_menu_screen.dart';
 import 'account_selection_screen.dart';
 
-class _SnackbarAwareFabLocation extends FloatingActionButtonLocation {
-  final double offset;
-
-  const _SnackbarAwareFabLocation({this.offset = 0});
-
-  @override
-  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    final baseOffset = FloatingActionButtonLocation.endFloat
-        .getOffset(scaffoldGeometry);
-    return Offset(baseOffset.dx, baseOffset.dy - offset);
-  }
-}
-
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  double _snackbarOffset = 0;
-
-  void _showAddToCartSnackBar(String productName, AppLocalizations l10n) {
-    setState(() => _snackbarOffset = 56);
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-          SnackBar(
-            content: Text('$productName ${l10n.addToCart}'),
-            duration: const Duration(seconds: 1),
-            action: SnackBarAction(
-              label: l10n.cart,
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const CartScreen()),
-                );
-              },
-            ),
-          ),
-        )
-        .closed
-        .then((_) {
-          if (mounted) {
-            setState(() => _snackbarOffset = 0);
-          }
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        account != null
-                            ? l10n.getAccountName(account.id)
-                            : l10n.noAccountSelected,
+                        account != null ? l10n.getAccountName(account.id) : l10n.noAccountSelected,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -167,8 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () {
                               Navigator.pop(ctx);
                               Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (_) => const AccountSelectionScreen()),
+                                MaterialPageRoute(builder: (_) => const AccountSelectionScreen()),
                               );
                             },
                             child: Text(l10n.logout),
@@ -254,8 +205,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     onAddToCart: () {
                       context.read<CartProvider>().addItem(product);
-                      _showAddToCartSnackBar(
-                          l10n.getProductName(product.id), l10n);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${l10n.getProductName(product.id)} ${l10n.addToCart}'),
+                          duration: const Duration(seconds: 1),
+                          action: SnackBarAction(
+                            label: l10n.cart,
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const CartScreen()),
+                              );
+                            },
+                          ),
+                        ),
+                      );
                     },
                   );
                 },
@@ -264,8 +227,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButtonLocation:
-          _SnackbarAwareFabLocation(offset: _snackbarOffset),
       floatingActionButton: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {
           if (cartProvider.isEmpty) return const SizedBox.shrink();
@@ -285,8 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
