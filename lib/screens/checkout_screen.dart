@@ -117,6 +117,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           }
 
           final account = accountProvider.currentAccount;
+          final accountName = account != null ? l10n.getAccountName(account.id) : l10n.noAccountSelected;
+          final accountType = account != null ? l10n.getAccountType(account.type) : '';
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -140,7 +142,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                account?.name ?? l10n.noAccountSelected,
+                                accountName,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
@@ -207,7 +209,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${item.quantity}x ${item.product.name}',
+                                  '${item.quantity}x ${l10n.getProductName(item.product.id)}',
                                 ),
                               ),
                               Text(
@@ -242,25 +244,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 100),
               ],
             ),
           );
         },
       ),
-      bottomSheet: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SafeArea(
+      bottomSheet: SafeArea(
+        top: false,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
           child: SizedBox(
             width: double.infinity,
             height: 56,

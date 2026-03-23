@@ -12,6 +12,7 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final productName = l10n.getProductName(product.id);
 
     return Scaffold(
       body: CustomScrollView(
@@ -51,7 +52,7 @@ class ProductDetailScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.name,
+                              productName,
                               style: const TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              product.brand,
+                              l10n.tsingtaoBrewery,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[600],
@@ -121,19 +122,20 @@ class ProductDetailScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomSheet: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SafeArea(
+      bottomSheet: SafeArea(
+        top: false,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
           child: SizedBox(
             width: double.infinity,
             height: 56,
@@ -142,7 +144,7 @@ class ProductDetailScreen extends StatelessWidget {
                 context.read<CartProvider>().addItem(product);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('${product.name} ${l10n.addToCart}'),
+                    content: Text('$productName ${l10n.addToCart}'),
                     behavior: SnackBarBehavior.floating,
                     duration: const Duration(seconds: 2),
                   ),

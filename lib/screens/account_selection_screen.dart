@@ -11,6 +11,7 @@ class AccountSelectionScreen extends StatelessWidget {
   void _showPasswordDialog(BuildContext context, dynamic account) {
     final l10n = context.l10n;
     final passwordController = TextEditingController();
+    final accountName = l10n.getAccountName(account.id);
 
     showDialog(
       context: context,
@@ -20,7 +21,7 @@ class AccountSelectionScreen extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n.enterPasswordText(account.name)),
+            Text(l10n.enterPasswordText(accountName)),
             const SizedBox(height: 16),
             TextField(
               controller: passwordController,
@@ -179,6 +180,9 @@ class AccountSelectionScreen extends StatelessWidget {
                         itemCount: accountProvider.accounts.length,
                         itemBuilder: (context, index) {
                           final account = accountProvider.accounts[index];
+                          final accountName = l10n.getAccountName(account.id);
+                          final accountType = l10n.getAccountType(account.type);
+
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: Card(
@@ -212,7 +216,7 @@ class AccountSelectionScreen extends StatelessWidget {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              account.name,
+                                              accountName,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 16,
@@ -220,7 +224,7 @@ class AccountSelectionScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              account.type,
+                                              accountType,
                                               style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontSize: 13,

@@ -4,7 +4,6 @@ import '../l10n/app_localizations.dart';
 import '../data/products.dart';
 import '../providers/account_provider.dart';
 import '../providers/cart_provider.dart';
-import '../providers/locale_provider.dart';
 import '../widgets/product_card.dart';
 import 'product_detail_screen.dart';
 import 'cart_screen.dart';
@@ -57,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        account?.name ?? l10n.noAccountSelected,
+                        account != null ? l10n.getAccountName(account.id) : l10n.noAccountSelected,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -65,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        account?.type ?? '',
+                        account != null ? l10n.getAccountType(account.type) : '',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
@@ -135,77 +134,81 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            color: const Color(0xFFF5E6D3),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Consumer<AccountProvider>(
-                  builder: (context, accountProvider, child) {
-                    return Text(
-                      '${l10n.welcome}, ${accountProvider.currentAccount?.name ?? "Guest"}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  l10n.productsAvailableText(sampleProducts.length),
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
               padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.62,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              itemCount: sampleProducts.length,
-              itemBuilder: (context, index) {
-                final product = sampleProducts[index];
-                return ProductCard(
-                  product: product,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ProductDetailScreen(product: product),
-                      ),
-                    );
-                  },
-                  onAddToCart: () {
-                    context.read<CartProvider>().addItem(product);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${product.name} ${l10n.addToCart}'),
-                        duration: const Duration(seconds: 1),
-                        action: SnackBarAction(
-                          label: l10n.cart,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => const CartScreen()),
-                            );
-                          },
+              color: const Color(0xFFF5E6D3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Consumer<AccountProvider>(
+                    builder: (context, accountProvider, child) {
+                      final account = accountProvider.currentAccount;
+                      return Text(
+                        '${l10n.welcome}, ${account != null ? l10n.getAccountName(account.id) : "Guest"}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.productsAvailableText(sampleProducts.length),
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.62,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: sampleProducts.length,
+                itemBuilder: (context, index) {
+                  final product = sampleProducts[index];
+                  return ProductCard(
+                    product: product,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailScreen(product: product),
+                        ),
+                      );
+                    },
+                    onAddToCart: () {
+                      context.read<CartProvider>().addItem(product);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${l10n.getProductName(product.id)} ${l10n.addToCart}'),
+                          duration: const Duration(seconds: 1),
+                          action: SnackBarAction(
+                            label: l10n.cart,
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const CartScreen()),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {

@@ -68,5 +68,19 @@
   "confirmed": "已确认",
   "delivered": "已送达",
   "ordered": "下单日期",
-  "delivery": "配送日期"
+  "delivery": "配送日期",
+  "tsingtaoBrewery": "青岛啤酒厂",
+  "productLager330": "青岛啤酒 330ml",
+  "productLager640": "青岛啤酒 640ml",
+  "productPureDraft330": "青岛纯生 330ml",
+  "product1903_500": "青岛1903 500ml",
+  "productStout330": "青岛黑啤 330ml",
+  "productWhiteAle330": "青岛白啤 330ml",
+  "productPremium500": "青岛经典 500ml",
+  "accountDowntownBar": "市中心酒吧餐厅",
+  "accountItalianKitchen": "意大利厨房餐厅",
+  "accountCornerMarket": "角落烟酒专卖店",
+  "barType": "酒吧",
+  "restaurantType": "餐厅",
+  "retailType": "零售店"
 }

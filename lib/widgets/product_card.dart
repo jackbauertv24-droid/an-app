@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -15,6 +17,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final productName = l10n.getProductName(product.id);
+
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 2,
@@ -48,7 +53,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    productName,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -58,7 +63,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    product.brand,
+                    l10n.tsingtaoBrewery,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12,

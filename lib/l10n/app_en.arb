@@ -1,9 +1,6 @@
 {
   "@@locale": "en",
   "appTitle": "BrewDirect",
-  "@appTitle": {
-    "description": "App title"
-  },
   "wholesaleDistribution": "Wholesale Beer Distribution",
   "selectAccount": "Select Your Account",
   "productCatalog": "Product Catalog",
@@ -48,14 +45,6 @@
   "quantity": "Qty",
   "password": "Password",
   "enterPassword": "Enter password for {account}",
-  "@enterPassword": {
-    "description": "Password prompt",
-    "placeholders": {
-      "account": {
-        "type": "String"
-      }
-    }
-  },
   "login": "Login",
   "passwordHint": "Any password will work",
   "noAccountSelected": "No account selected",
@@ -79,5 +68,19 @@
   "confirmed": "Confirmed",
   "delivered": "Delivered",
   "ordered": "Ordered",
-  "delivery": "Delivery"
+  "delivery": "Delivery",
+  "tsingtaoBrewery": "TsingTao Brewery",
+  "productLager330": "TsingTao Lager 330ml",
+  "productLager640": "TsingTao Lager 640ml",
+  "productPureDraft330": "TsingTao Pure Draft 330ml",
+  "product1903_500": "TsingTao 1903 500ml",
+  "productStout330": "TsingTao Stout 330ml",
+  "productWhiteAle330": "TsingTao White Ale 330ml",
+  "productPremium500": "TsingTao Premium 500ml",
+  "accountDowntownBar": "Downtown Bar & Grill",
+  "accountItalianKitchen": "The Italian Kitchen",
+  "accountCornerMarket": "Corner Market & Spirits",
+  "barType": "Bar",
+  "restaurantType": "Restaurant",
+  "retailType": "Retail"
 }

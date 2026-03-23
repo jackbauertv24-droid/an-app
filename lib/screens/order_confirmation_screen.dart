@@ -159,7 +159,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                   ),
                 ),
               ),
-              const SizedBox(height: 48),
+              const Spacer(),
               SizedBox(
                 width: double.infinity,
                 height: 56,

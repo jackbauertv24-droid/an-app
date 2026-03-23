@@ -16,21 +16,36 @@ class AppLocalizations {
       _AppLocalizationsDelegate();
 
   Future<bool> load() async {
-    String jsonString = await rootBundle.loadString(
-      'lib/l10n/app_${locale.languageCode}${locale.countryCode != null ? '_${locale.countryCode}' : ''}.arb',
-    );
+    String jsonString;
 
-    // Try with country code first, then without
+    // Try with country code first
+    if (locale.countryCode != null && locale.countryCode!.isNotEmpty) {
+      try {
+        jsonString = await rootBundle.loadString(
+          'lib/l10n/app_${locale.languageCode}_${locale.countryCode}.arb',
+        );
+        Map<String, dynamic> jsonMap = json.decode(jsonString);
+        _localizedStrings = jsonMap.map((key, value) {
+          return MapEntry(key, value.toString());
+        });
+        return true;
+      } catch (e) {
+        // Fall through to base language
+      }
+    }
+
+    // Try base language code
     try {
+      jsonString = await rootBundle.loadString(
+        'lib/l10n/app_${locale.languageCode}.arb',
+      );
       Map<String, dynamic> jsonMap = json.decode(jsonString);
       _localizedStrings = jsonMap.map((key, value) {
         return MapEntry(key, value.toString());
       });
     } catch (e) {
-      // Fallback to base language code
-      jsonString = await rootBundle.loadString(
-        'lib/l10n/app_${locale.languageCode}.arb',
-      );
+      // Fallback to English
+      jsonString = await rootBundle.loadString('lib/l10n/app_en.arb');
       Map<String, dynamic> jsonMap = json.decode(jsonString);
       _localizedStrings = jsonMap.map((key, value) {
         return MapEntry(key, value.toString());
@@ -50,6 +65,7 @@ class AppLocalizations {
     return text;
   }
 
+  // General strings
   String get appTitle => translate('appTitle');
   String get wholesaleDistribution => translate('wholesaleDistribution');
   String get selectAccount => translate('selectAccount');
@@ -116,9 +132,90 @@ class AppLocalizations {
   String get ordered => translate('ordered');
   String get delivery => translate('delivery');
 
+  // Brand
+  String get tsingtaoBrewery => translate('tsingtaoBrewery');
+
+  // Products
+  String get productLager330 => translate('productLager330');
+  String get productLager640 => translate('productLager640');
+  String get productPureDraft330 => translate('productPureDraft330');
+  String get product1903_500 => translate('product1903_500');
+  String get productStout330 => translate('productStout330');
+  String get productWhiteAle330 => translate('productWhiteAle330');
+  String get productPremium500 => translate('productPremium500');
+
+  // Accounts
+  String get accountDowntownBar => translate('accountDowntownBar');
+  String get accountItalianKitchen => translate('accountItalianKitchen');
+  String get accountCornerMarket => translate('accountCornerMarket');
+
+  // Account Types
+  String get barType => translate('barType');
+  String get restaurantType => translate('restaurantType');
+  String get retailType => translate('retailType');
+
+  // Helper methods
   String productsAvailableText(int count) => '$count ${translate('productsAvailable')}';
   String itemsText(int count) => '$count ${count > 1 ? translate('items') : translate('item')}';
   String enterPasswordText(String account) => translate('enterPassword', {'account': account});
+
+  // Product name by ID
+  String getProductName(String productId) {
+    switch (productId) {
+      case 'tsingtao-001':
+      case 'tsingtao-002':
+      case 'tsingtao-003':
+        return productLager330;
+      case 'tsingtao-004':
+      case 'tsingtao-005':
+        return productLager640;
+      case 'tsingtao-006':
+      case 'tsingtao-007':
+        return productPureDraft330;
+      case 'tsingtao-008':
+      case 'tsingtao-009':
+        return product1903_500;
+      case 'tsingtao-010':
+      case 'tsingtao-011':
+        return productStout330;
+      case 'tsingtao-012':
+      case 'tsingtao-013':
+        return productWhiteAle330;
+      case 'tsingtao-014':
+      case 'tsingtao-015':
+        return productPremium500;
+      default:
+        return productId;
+    }
+  }
+
+  // Account name by ID
+  String getAccountName(String accountId) {
+    switch (accountId) {
+      case 'acc-001':
+        return accountDowntownBar;
+      case 'acc-002':
+        return accountItalianKitchen;
+      case 'acc-003':
+        return accountCornerMarket;
+      default:
+        return accountId;
+    }
+  }
+
+  // Account type by type string
+  String getAccountType(String type) {
+    switch (type.toLowerCase()) {
+      case 'bar':
+        return barType;
+      case 'restaurant':
+        return restaurantType;
+      case 'retail':
+        return retailType;
+      default:
+        return type;
+    }
+  }
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

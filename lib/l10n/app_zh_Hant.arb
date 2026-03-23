@@ -68,5 +68,19 @@
   "confirmed": "已確認",
   "delivered": "已送達",
   "ordered": "下單日期",
-  "delivery": "配送日期"
+  "delivery": "配送日期",
+  "tsingtaoBrewery": "青島啤酒廠",
+  "productLager330": "青島啤酒 330ml",
+  "productLager640": "青島啤酒 640ml",
+  "productPureDraft330": "青島純生 330ml",
+  "product1903_500": "青島1903 500ml",
+  "productStout330": "青島黑啤 330ml",
+  "productWhiteAle330": "青島白啤 330ml",
+  "productPremium500": "青島經典 500ml",
+  "accountDowntownBar": "市中心酒吧餐廳",
+  "accountItalianKitchen": "義大利廚房餐廳",
+  "accountCornerMarket": "角落煙酒專賣店",
+  "barType": "酒吧",
+  "restaurantType": "餐廳",
+  "retailType": "零售店"
 }
