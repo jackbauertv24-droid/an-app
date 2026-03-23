@@ -34,7 +34,7 @@ class BrewDirectApp extends StatelessWidget {
               Locale('zh', 'Hant'),
               Locale('zh', 'Hans'),
             ],
-            localizationsDelegates: const [
+            localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
