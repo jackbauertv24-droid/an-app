@@ -11,6 +11,19 @@ import 'order_history_screen.dart';
 import 'developer_menu_screen.dart';
 import 'account_selection_screen.dart';
 
+class _SnackbarAwareFabLocation extends FloatingActionButtonLocation {
+  final double offset;
+
+  const _SnackbarAwareFabLocation({this.offset = 0});
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    final baseOffset = const FloatingActionButtonLocation.endFloat()
+        .getOffset(scaffoldGeometry);
+    return Offset(baseOffset.dx, baseOffset.dy - offset);
+  }
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -19,11 +32,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _snackbarVisible = false;
+  double _snackbarOffset = 0;
 
   void _showAddToCartSnackBar(String productName, AppLocalizations l10n) {
-    setState(() => _snackbarVisible = true);
-    
+    setState(() => _snackbarOffset = 56);
+
     ScaffoldMessenger.of(context)
         .showSnackBar(
           SnackBar(
@@ -42,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .closed
         .then((_) {
           if (mounted) {
-            setState(() => _snackbarVisible = false);
+            setState(() => _snackbarOffset = 0);
           }
         });
   }
@@ -89,7 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        account != null ? l10n.getAccountName(account.id) : l10n.noAccountSelected,
+                        account != null
+                            ? l10n.getAccountName(account.id)
+                            : l10n.noAccountSelected,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -152,7 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () {
                               Navigator.pop(ctx);
                               Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (_) => const AccountSelectionScreen()),
+                                MaterialPageRoute(
+                                    builder: (_) => const AccountSelectionScreen()),
                               );
                             },
                             child: Text(l10n.logout),
@@ -216,81 +232,77 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Expanded(
-              child: AnimatedPadding(
-                padding: EdgeInsets.only(bottom: _snackbarVisible ? 56 : 0),
-                duration: const Duration(milliseconds: 200),
-                child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.62,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  itemCount: sampleProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = sampleProducts[index];
-                    return ProductCard(
-                      product: product,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => ProductDetailScreen(product: product),
-                          ),
-                        );
-                      },
-                      onAddToCart: () {
-                        context.read<CartProvider>().addItem(product);
-                        _showAddToCartSnackBar(l10n.getProductName(product.id), l10n);
-                      },
-                    );
-                  },
+              child: GridView.builder(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.62,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
                 ),
+                itemCount: sampleProducts.length,
+                itemBuilder: (context, index) {
+                  final product = sampleProducts[index];
+                  return ProductCard(
+                    product: product,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailScreen(product: product),
+                        ),
+                      );
+                    },
+                    onAddToCart: () {
+                      context.read<CartProvider>().addItem(product);
+                      _showAddToCartSnackBar(
+                          l10n.getProductName(product.id), l10n);
+                    },
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: AnimatedPadding(
-        padding: EdgeInsets.only(bottom: _snackbarVisible ? 56 : 0),
-        duration: const Duration(milliseconds: 200),
-        child: Consumer<CartProvider>(
-          builder: (context, cartProvider, child) {
-            if (cartProvider.isEmpty) return const SizedBox.shrink();
-            return FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const CartScreen()),
-                );
-              },
-              backgroundColor: const Color(0xFFD4A054),
-              icon: const Icon(Icons.shopping_cart, color: Colors.white),
-              label: Row(
-                children: [
-                  Text(
-                    '${l10n.cart} (${cartProvider.itemCount})',
-                    style: const TextStyle(color: Colors.white),
+      floatingActionButtonLocation:
+          _SnackbarAwareFabLocation(offset: _snackbarOffset),
+      floatingActionButton: Consumer<CartProvider>(
+        builder: (context, cartProvider, child) {
+          if (cartProvider.isEmpty) return const SizedBox.shrink();
+          return FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const CartScreen()),
+              );
+            },
+            backgroundColor: const Color(0xFFD4A054),
+            icon: const Icon(Icons.shopping_cart, color: Colors.white),
+            label: Row(
+              children: [
+                Text(
+                  '${l10n.cart} (${cartProvider.itemCount})',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '\$${cartProvider.totalAmount.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: Text(
+                    '\$${cartProvider.totalAmount.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
