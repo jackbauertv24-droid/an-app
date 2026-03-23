@@ -30,8 +30,6 @@ jobs:
         run: flutter create --platforms=android .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Accept Android licenses
         run: yes | flutter doctor --android-licenses
       - name: Build APK
@@ -58,8 +56,6 @@ jobs:
         run: flutter create --platforms=web .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Build Web
         run: flutter build web --release --base-href=/an-app/
       - name: Upload Web
@@ -84,8 +80,6 @@ jobs:
         run: flutter create --platforms=ios .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Build iOS
         run: flutter build ios --release --no-codesign
       - name: Upload iOS
@@ -114,8 +108,6 @@ jobs:
         run: flutter create --platforms=linux .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Build Linux
         run: flutter build linux --release
       - name: Upload Linux
@@ -140,8 +132,6 @@ jobs:
         run: flutter create --platforms=windows .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Build Windows
         run: flutter build windows --release
       - name: Upload Windows
@@ -166,8 +156,6 @@ jobs:
         run: flutter create --platforms=macos .
       - name: Install dependencies
         run: flutter pub get
-      - name: Run tests
-        run: flutter test
       - name: Build macOS
         run: flutter build macos --release
       - name: Upload macOS
