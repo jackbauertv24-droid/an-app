@@ -18,7 +18,7 @@ class _SnackbarAwareFabLocation extends FloatingActionButtonLocation {
 
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    final baseOffset = const FloatingActionButtonLocation.endFloat()
+    final baseOffset = FloatingActionButtonLocation.endFloat
         .getOffset(scaffoldGeometry);
     return Offset(baseOffset.dx, baseOffset.dy - offset);
   }
