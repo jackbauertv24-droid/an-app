@@ -11,8 +11,41 @@ import 'order_history_screen.dart';
 import 'developer_menu_screen.dart';
 import 'account_selection_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _snackbarVisible = false;
+
+  void _showAddToCartSnackBar(String productName, AppLocalizations l10n) {
+    setState(() => _snackbarVisible = true);
+    
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            content: Text('$productName ${l10n.addToCart}'),
+            duration: const Duration(seconds: 1),
+            action: SnackBarAction(
+              label: l10n.cart,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const CartScreen()),
+                );
+              },
+            ),
+          ),
+        )
+        .closed
+        .then((_) {
+          if (mounted) {
+            setState(() => _snackbarVisible = false);
+          }
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,88 +216,81 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.62,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
-                itemCount: sampleProducts.length,
-                itemBuilder: (context, index) {
-                  final product = sampleProducts[index];
-                  return ProductCard(
-                    product: product,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => ProductDetailScreen(product: product),
-                        ),
-                      );
-                    },
-                    onAddToCart: () {
-                      context.read<CartProvider>().addItem(product);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('${l10n.getProductName(product.id)} ${l10n.addToCart}'),
-                          duration: const Duration(seconds: 1),
-                          behavior: SnackBarBehavior.floating,
-                          margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
-                          action: SnackBarAction(
-                            label: l10n.cart,
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => const CartScreen()),
-                              );
-                            },
+              child: AnimatedPadding(
+                padding: EdgeInsets.only(bottom: _snackbarVisible ? 56 : 0),
+                duration: const Duration(milliseconds: 200),
+                child: GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.62,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: sampleProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = sampleProducts[index];
+                    return ProductCard(
+                      product: product,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ProductDetailScreen(product: product),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                      onAddToCart: () {
+                        context.read<CartProvider>().addItem(product);
+                        _showAddToCartSnackBar(l10n.getProductName(product.id), l10n);
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: Consumer<CartProvider>(
-        builder: (context, cartProvider, child) {
-          if (cartProvider.isEmpty) return const SizedBox.shrink();
-          return FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const CartScreen()),
-              );
-            },
-            backgroundColor: const Color(0xFFD4A054),
-            icon: const Icon(Icons.shopping_cart, color: Colors.white),
-            label: Row(
-              children: [
-                Text(
-                  '${l10n.cart} (${cartProvider.itemCount})',
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+      floatingActionButton: AnimatedPadding(
+        padding: EdgeInsets.only(bottom: _snackbarVisible ? 56 : 0),
+        duration: const Duration(milliseconds: 200),
+        child: Consumer<CartProvider>(
+          builder: (context, cartProvider, child) {
+            if (cartProvider.isEmpty) return const SizedBox.shrink();
+            return FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const CartScreen()),
+                );
+              },
+              backgroundColor: const Color(0xFFD4A054),
+              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              label: Row(
+                children: [
+                  Text(
+                    '${l10n.cart} (${cartProvider.itemCount})',
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  child: Text(
-                    '\$${cartProvider.totalAmount.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '\$${cartProvider.totalAmount.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
