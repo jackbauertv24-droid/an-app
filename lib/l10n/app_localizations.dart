@@ -109,6 +109,9 @@ class AppLocalizations {
   String get quantity => translate('quantity');
   String get password => translate('password');
   String get login => translate('login');
+  String get loginId => translate('loginId');
+  String get loginIdRequired => translate('loginIdRequired');
+  String get demoHint => translate('demoHint');
   String get passwordHint => translate('passwordHint');
   String get noAccountSelected => translate('noAccountSelected');
   String get processing => translate('processing');
