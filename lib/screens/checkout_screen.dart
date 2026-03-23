@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/account_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/orders_provider.dart';
@@ -51,14 +52,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
-  void _placeOrder(BuildContext context) async {
+  Future<void> _placeOrder(BuildContext context) async {
+    final l10n = context.l10n;
     final accountProvider = context.read<AccountProvider>();
     final cartProvider = context.read<CartProvider>();
     final ordersProvider = context.read<OrdersProvider>();
 
     if (accountProvider.currentAccount == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No account selected')),
+        SnackBar(content: Text(l10n.noAccountSelected)),
       );
       return;
     }
@@ -67,26 +69,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _isProcessing = true;
     });
 
-    // Simulate processing delay
-    await Future.delayed(const Duration(seconds: 1));
-
-    ordersProvider.addOrder(
+    // Add order to provider (which persists to local storage)
+    await ordersProvider.addOrder(
       accountId: accountProvider.currentAccount!.id,
       items: List.from(cartProvider.items),
       deliveryDate: _deliveryDate,
       notes: _notesController.text,
     );
 
-    final orderId = ordersProvider.orders.first.id;
+    // Get the newly created order
+    final newOrder = ordersProvider.orders.first;
     final totalAmount = cartProvider.totalAmount;
 
+    // Clear the cart
     cartProvider.clear();
 
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => OrderConfirmationScreen(
-            orderId: orderId,
+            orderId: newOrder.id,
             totalAmount: totalAmount,
             deliveryDate: _deliveryDate,
           ),
@@ -97,19 +99,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final dateFormat = DateFormat('EEEE, MMMM dd, yyyy');
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Checkout'),
+        title: Text(l10n.checkout),
         backgroundColor: const Color(0xFFD4A054),
         foregroundColor: Colors.white,
       ),
       body: Consumer2<CartProvider, AccountProvider>(
         builder: (context, cart, accountProvider, child) {
           if (cart.isEmpty) {
-            return const Center(
-              child: Text('Your cart is empty'),
+            return Center(
+              child: Text(l10n.yourCartIsEmpty),
             );
           }
 
@@ -121,7 +124,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Delivery Account
-                _buildSectionTitle('Delivery Account'),
+                _buildSectionTitle(l10n.deliveryAccount),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -137,7 +140,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                account?.name ?? 'Unknown Account',
+                                account?.name ?? l10n.noAccountSelected,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
@@ -158,13 +161,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(height: 24),
 
                 // Delivery Date
-                _buildSectionTitle('Delivery Date'),
+                _buildSectionTitle(l10n.deliveryDate),
                 Card(
                   child: ListTile(
                     leading: const Icon(Icons.calendar_today, color: Color(0xFFD4A054)),
                     title: Text(dateFormat.format(_deliveryDate)),
                     subtitle: Text(
-                      'Tap to change date',
+                      l10n.tapToChangeDate,
                       style: TextStyle(color: Colors.grey[500], fontSize: 12),
                     ),
                     trailing: const Icon(Icons.chevron_right),
@@ -174,15 +177,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(height: 24),
 
                 // Order Notes
-                _buildSectionTitle('Order Notes (Optional)'),
+                _buildSectionTitle(l10n.orderNotesOptional),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: TextField(
                       controller: _notesController,
                       maxLines: 3,
-                      decoration: const InputDecoration(
-                        hintText: 'Add delivery instructions or special requests...',
+                      decoration: InputDecoration(
+                        hintText: l10n.deliveryInstructions,
                         border: InputBorder.none,
                         isDense: true,
                       ),
@@ -192,7 +195,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(height: 24),
 
                 // Order Summary
-                _buildSectionTitle('Order Summary'),
+                _buildSectionTitle(l10n.orderSummary),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -218,9 +221,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Total',
-                              style: TextStyle(
+                            Text(
+                              l10n.total,
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -280,9 +283,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text(
-                      'Place Order',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  : Text(
+                      l10n.placeOrder,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
             ),
           ),

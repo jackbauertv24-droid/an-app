@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item_tile.dart';
 import 'checkout_screen.dart';
@@ -9,9 +10,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shopping Cart'),
+        title: Text(l10n.shoppingCart),
         backgroundColor: const Color(0xFFD4A054),
         foregroundColor: Colors.white,
         actions: [
@@ -23,25 +26,25 @@ class CartScreen extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: const Text('Clear Cart'),
-                      content: const Text('Are you sure you want to remove all items from your cart?'),
+                      title: Text(l10n.clearCart),
+                      content: Text(l10n.clearCartConfirm),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(ctx),
-                          child: const Text('Cancel'),
+                          child: Text(l10n.cancel),
                         ),
                         TextButton(
                           onPressed: () {
                             cart.clear();
                             Navigator.pop(ctx);
                           },
-                          child: const Text('Clear', style: TextStyle(color: Colors.red)),
+                          child: Text(l10n.clear, style: const TextStyle(color: Colors.red)),
                         ),
                       ],
                     ),
                   );
                 },
-                child: const Text('Clear', style: TextStyle(color: Colors.white)),
+                child: Text(l10n.clear, style: const TextStyle(color: Colors.white)),
               );
             },
           ),
@@ -61,7 +64,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your cart is empty',
+                    l10n.yourCartIsEmpty,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[500],
@@ -69,7 +72,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Browse products and add items to your cart',
+                    l10n.browseProducts,
                     style: TextStyle(color: Colors.grey[400]),
                   ),
                 ],
@@ -94,7 +97,7 @@ class CartScreen extends StatelessWidget {
                   },
                 ),
               ),
-              _buildOrderSummary(context, cart),
+              _buildOrderSummary(context, cart, l10n),
             ],
           );
         },
@@ -102,7 +105,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderSummary(BuildContext context, CartProvider cart) {
+  Widget _buildOrderSummary(BuildContext context, CartProvider cart, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -123,14 +126,14 @@ class CartScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${cart.itemCount} item${cart.itemCount > 1 ? 's' : ''}',
+                  l10n.itemsText(cart.itemCount),
                   style: TextStyle(color: Colors.grey[600]),
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Total: ',
-                      style: TextStyle(fontSize: 16),
+                    Text(
+                      '${l10n.total}: ',
+                      style: const TextStyle(fontSize: 16),
                     ),
                     Text(
                       '\$${cart.totalAmount.toStringAsFixed(2)}',
@@ -161,9 +164,9 @@ class CartScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
-                  'Proceed to Checkout',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: Text(
+                  l10n.proceedToCheckout,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

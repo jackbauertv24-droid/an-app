@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 
@@ -10,6 +11,8 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -95,9 +98,9 @@ class ProductDetailScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'Description',
-                    style: TextStyle(
+                  Text(
+                    l10n.description,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -139,7 +142,7 @@ class ProductDetailScreen extends StatelessWidget {
                 context.read<CartProvider>().addItem(product);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('${product.name} added to cart'),
+                    content: Text('${product.name} ${l10n.addToCart}'),
                     behavior: SnackBarBehavior.floating,
                     duration: const Duration(seconds: 2),
                   ),
@@ -153,9 +156,9 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
               icon: const Icon(Icons.add_shopping_cart),
-              label: const Text(
-                'Add to Cart',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              label: Text(
+                l10n.addToCart,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ),

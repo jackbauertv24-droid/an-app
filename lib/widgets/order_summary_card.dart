@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../models/order.dart';
+import '../providers/locale_provider.dart';
 
 class OrderSummaryCard extends StatelessWidget {
   final Order order;
@@ -12,8 +15,20 @@ class OrderSummaryCard extends StatelessWidget {
     this.onTap,
   });
 
+  String _getStatusLabel(OrderStatus status, AppLocalizations l10n) {
+    switch (status) {
+      case OrderStatus.pending:
+        return l10n.pending;
+      case OrderStatus.confirmed:
+        return l10n.confirmed;
+      case OrderStatus.delivered:
+        return l10n.delivered;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final dateFormat = DateFormat('MMM dd, yyyy');
 
     return Card(
@@ -43,7 +58,7 @@ class OrderSummaryCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      order.statusLabel,
+                      _getStatusLabel(order.status, l10n),
                       style: TextStyle(
                         color: order.statusColor,
                         fontWeight: FontWeight.w600,
@@ -59,7 +74,7 @@ class OrderSummaryCard extends StatelessWidget {
                   Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
                   const SizedBox(width: 8),
                   Text(
-                    'Ordered: ${dateFormat.format(order.orderDate)}',
+                    '${l10n.ordered}: ${dateFormat.format(order.orderDate)}',
                     style: TextStyle(color: Colors.grey[600], fontSize: 13),
                   ),
                 ],
@@ -70,7 +85,7 @@ class OrderSummaryCard extends StatelessWidget {
                   Icon(Icons.local_shipping, size: 16, color: Colors.grey[600]),
                   const SizedBox(width: 8),
                   Text(
-                    'Delivery: ${dateFormat.format(order.deliveryDate)}',
+                    '${l10n.delivery}: ${dateFormat.format(order.deliveryDate)}',
                     style: TextStyle(color: Colors.grey[600], fontSize: 13),
                   ),
                 ],
@@ -90,9 +105,9 @@ class OrderSummaryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Total',
-                    style: TextStyle(fontSize: 16),
+                  Text(
+                    l10n.total,
+                    style: const TextStyle(fontSize: 16),
                   ),
                   Text(
                     '\$${order.totalAmount.toStringAsFixed(2)}',

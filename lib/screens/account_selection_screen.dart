@@ -1,13 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/account_provider.dart';
+import '../providers/locale_provider.dart';
 import 'home_screen.dart';
 
 class AccountSelectionScreen extends StatelessWidget {
   const AccountSelectionScreen({super.key});
 
+  void _showPasswordDialog(BuildContext context, dynamic account) {
+    final l10n = context.l10n;
+    final passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.password),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.enterPasswordText(account.name)),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: l10n.password,
+                border: const OutlineInputBorder(),
+              ),
+              onSubmitted: (_) {
+                _performLogin(context, dialogContext, account);
+              },
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.passwordHint,
+              style: TextStyle(
+                color: Colors.grey[500],
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () => _performLogin(context, dialogContext, account),
+            child: Text(l10n.login),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _performLogin(BuildContext context, dialogContext, dynamic account) {
+    context.read<AccountProvider>().selectAccount(account);
+    Navigator.of(dialogContext).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -23,19 +84,68 @@ class AccountSelectionScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 40),
-                const Center(
-                  child: Icon(
+                const SizedBox(height: 20),
+                // Language selector
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Consumer<LocaleProvider>(
+                      builder: (context, localeProvider, _) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: '${localeProvider.locale.languageCode}_${localeProvider.locale.countryCode ?? ''}',
+                              dropdownColor: const Color(0xFF8B5E3C),
+                              style: const TextStyle(color: Colors.white),
+                              icon: const Icon(Icons.language, color: Colors.white),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'zh_Hant',
+                                  child: Text(l10n.traditionalChinese),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'zh_Hans',
+                                  child: Text(l10n.simplifiedChinese),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'en_',
+                                  child: Text(l10n.english),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                if (value == 'zh_Hant') {
+                                  localeProvider.setTraditionalChinese();
+                                } else if (value == 'zh_Hans') {
+                                  localeProvider.setSimplifiedChinese();
+                                } else {
+                                  localeProvider.setEnglish();
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: const Icon(
                     Icons.local_drink,
                     size: 80,
                     color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Center(
+                Center(
                   child: Text(
-                    'BrewDirect',
-                    style: TextStyle(
+                    l10n.appTitle,
+                    style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -43,19 +153,19 @@ class AccountSelectionScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Center(
+                Center(
                   child: Text(
-                    'Wholesale Beer Distribution',
-                    style: TextStyle(
+                    l10n.wholesaleDistribution,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
                     ),
                   ),
                 ),
                 const SizedBox(height: 48),
-                const Text(
-                  'Select Your Account',
-                  style: TextStyle(
+                Text(
+                  l10n.selectAccount,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -77,14 +187,7 @@ class AccountSelectionScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: InkWell(
-                                onTap: () {
-                                  accountProvider.selectAccount(account);
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (_) => const HomeScreen(),
-                                    ),
-                                  );
-                                },
+                                onTap: () => _showPasswordDialog(context, account),
                                 borderRadius: BorderRadius.circular(16),
                                 child: Padding(
                                   padding: const EdgeInsets.all(20),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/app_localizations.dart';
 import '../data/products.dart';
 import '../providers/account_provider.dart';
 import '../providers/cart_provider.dart';
+import '../providers/locale_provider.dart';
 import '../widgets/product_card.dart';
 import 'product_detail_screen.dart';
 import 'cart_screen.dart';
@@ -15,9 +17,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BrewDirect'),
+        title: Text(l10n.appTitle),
         backgroundColor: const Color(0xFFD4A054),
         foregroundColor: Colors.white,
         actions: [
@@ -28,15 +32,15 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const OrderHistoryScreen()),
               );
             },
-            tooltip: 'Order History',
+            tooltip: l10n.orderHistory,
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Consumer<AccountProvider>(
-          builder: (context, accountProvider, child) {
-            final account = accountProvider.currentAccount;
-            return ListView(
+      drawer: Consumer<AccountProvider>(
+        builder: (context, accountProvider, child) {
+          final account = accountProvider.currentAccount;
+          return Drawer(
+            child: ListView(
               padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
@@ -53,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        account?.name ?? 'No Account',
+                        account?.name ?? l10n.noAccountSelected,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -72,13 +76,13 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.store),
-                  title: const Text('Product Catalog'),
+                  title: Text(l10n.productCatalog),
                   selected: true,
                   onTap: () => Navigator.pop(context),
                 ),
                 ListTile(
                   leading: const Icon(Icons.history),
-                  title: const Text('Order History'),
+                  title: Text(l10n.orderHistory),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.of(context).push(
@@ -89,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.code),
-                  title: const Text('Developer Menu'),
+                  title: Text(l10n.developerMenu),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.of(context).push(
@@ -100,17 +104,36 @@ class HomeScreen extends StatelessWidget {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.switch_account),
-                  title: const Text('Switch Account'),
+                  title: Text(l10n.switchAccount),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => const AccountSelectionScreen()),
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text(l10n.switchAccount),
+                        content: Text(l10n.confirmLogout),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            child: Text(l10n.cancel),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (_) => const AccountSelectionScreen()),
+                              );
+                            },
+                            child: Text(l10n.logout),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
       body: Column(
         children: [
@@ -124,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                 Consumer<AccountProvider>(
                   builder: (context, accountProvider, child) {
                     return Text(
-                      'Welcome, ${accountProvider.currentAccount?.name ?? "Guest"}',
+                      '${l10n.welcome}, ${accountProvider.currentAccount?.name ?? "Guest"}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -134,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${sampleProducts.length} products available',
+                  l10n.productsAvailableText(sampleProducts.length),
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],
@@ -165,10 +188,10 @@ class HomeScreen extends StatelessWidget {
                     context.read<CartProvider>().addItem(product);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${product.name} added to cart'),
+                        content: Text('${product.name} ${l10n.addToCart}'),
                         duration: const Duration(seconds: 1),
                         action: SnackBarAction(
-                          label: 'VIEW',
+                          label: l10n.cart,
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(builder: (_) => const CartScreen()),
@@ -198,7 +221,7 @@ class HomeScreen extends StatelessWidget {
             label: Row(
               children: [
                 Text(
-                  'Cart (${cartProvider.itemCount})',
+                  '${l10n.cart} (${cartProvider.itemCount})',
                   style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(width: 8),

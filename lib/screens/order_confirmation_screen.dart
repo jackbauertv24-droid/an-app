@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 import 'order_history_screen.dart';
 
@@ -58,6 +59,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final dateFormat = DateFormat('EEEE, MMMM dd, yyyy');
 
     return Scaffold(
@@ -110,9 +112,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                 },
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Order Placed!',
-                style: TextStyle(
+              Text(
+                l10n.orderPlaced,
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF3E2723),
@@ -120,7 +122,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
               ),
               const SizedBox(height: 8),
               Text(
-                'Your order has been successfully placed',
+                l10n.orderSuccessMessage,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[600],
@@ -137,20 +139,20 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     children: [
                       _buildDetailRow(
                         icon: Icons.receipt_long,
-                        label: 'Order ID',
+                        label: l10n.orderId,
                         value: widget.orderId,
                       ),
                       const SizedBox(height: 16),
                       _buildDetailRow(
                         icon: Icons.attach_money,
-                        label: 'Total Amount',
+                        label: l10n.totalAmount,
                         value: '\$${widget.totalAmount.toStringAsFixed(2)}',
                         isHighlighted: true,
                       ),
                       const SizedBox(height: 16),
                       _buildDetailRow(
                         icon: Icons.local_shipping,
-                        label: 'Estimated Delivery',
+                        label: l10n.estimatedDelivery,
                         value: dateFormat.format(widget.deliveryDate),
                       ),
                     ],
@@ -174,9 +176,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    'View Order History',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  child: Text(
+                    l10n.viewOrderHistory,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -188,9 +190,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen>
                     (route) => false,
                   );
                 },
-                child: const Text(
-                  'Continue Shopping',
-                  style: TextStyle(
+                child: Text(
+                  l10n.continueShopping,
+                  style: const TextStyle(
                     color: Color(0xFFD4A054),
                     fontWeight: FontWeight.w600,
                   ),

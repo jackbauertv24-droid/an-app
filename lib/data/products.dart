@@ -5,7 +5,7 @@ import '../models/product.dart';
 // Bottle sizes: 330ml, 500ml, 640ml
 
 final List<Product> sampleProducts = [
-  // TsingTao Classic Lager
+  // TsingTao Classic Lager - Green bottle
   Product(
     id: 'tsingtao-001',
     name: 'TsingTao Lager 330ml',
@@ -14,8 +14,8 @@ final List<Product> sampleProducts = [
     abv: 4.7,
     packSize: 6,
     price: 8.99,
-    imageUrl: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
-    description: 'Classic Chinese lager with a crisp, clean taste. Light golden color with subtle hop aroma. 330ml bottles.',
+    imageUrl: 'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400',
+    description: 'Classic Chinese lager with a crisp, clean taste. Light golden color with subtle hop aroma. 330ml green bottles.',
   ),
   Product(
     id: 'tsingtao-002',
@@ -25,8 +25,8 @@ final List<Product> sampleProducts = [
     abv: 4.7,
     packSize: 12,
     price: 16.99,
-    imageUrl: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
-    description: 'Classic Chinese lager with a crisp, clean taste. Best-selling Asian beer in the USA. 330ml bottles.',
+    imageUrl: 'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400',
+    description: 'Classic Chinese lager with a crisp, clean taste. Best-selling Asian beer in the USA. 330ml green bottles.',
   ),
   Product(
     id: 'tsingtao-003',
@@ -36,8 +36,8 @@ final List<Product> sampleProducts = [
     abv: 4.7,
     packSize: 24,
     price: 29.99,
-    imageUrl: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
-    description: 'Classic Chinese lager - full case. Perfect for restaurants and bars. 330ml bottles.',
+    imageUrl: 'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400',
+    description: 'Classic Chinese lager - full case. Perfect for restaurants and bars. 330ml green bottles.',
   ),
   Product(
     id: 'tsingtao-004',
@@ -48,7 +48,7 @@ final List<Product> sampleProducts = [
     packSize: 6,
     price: 14.99,
     imageUrl: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
-    description: 'Large format bottles for sharing. Traditional Chinese restaurant favorite. 640ml bottles.',
+    description: 'Large format bottles for sharing. Traditional Chinese restaurant favorite. 640ml green bottles.',
   ),
   Product(
     id: 'tsingtao-005',
@@ -59,7 +59,7 @@ final List<Product> sampleProducts = [
     packSize: 12,
     price: 27.99,
     imageUrl: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
-    description: 'Large format bottles - 12-pack. Ideal for high-volume establishments. 640ml bottles.',
+    description: 'Large format bottles - 12-pack. Ideal for high-volume establishments. 640ml green bottles.',
   ),
   // TsingTao Pure Draft
   Product(
@@ -70,7 +70,7 @@ final List<Product> sampleProducts = [
     abv: 4.3,
     packSize: 6,
     price: 10.99,
-    imageUrl: 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=400',
+    imageUrl: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400',
     description: 'Premium unpasteurized lager with fresh, smooth taste. Lighter body with clean finish. 330ml bottles.',
   ),
   Product(
@@ -81,7 +81,7 @@ final List<Product> sampleProducts = [
     abv: 4.3,
     packSize: 24,
     price: 38.99,
-    imageUrl: 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=400',
+    imageUrl: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400',
     description: 'Premium unpasteurized lager - full case. For establishments seeking premium options. 330ml bottles.',
   ),
   // TsingTao 1903
@@ -94,7 +94,7 @@ final List<Product> sampleProducts = [
     packSize: 6,
     price: 12.99,
     imageUrl: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400',
-    description: 'Premium craft lager celebrating TsingTao\'s heritage since 1903. Richer flavor profile. 500ml bottles.',
+    description: 'Premium craft lager celebrating TsingTao\'s heritage since 1903. Richer flavor profile. 500ml brown bottles.',
   ),
   Product(
     id: 'tsingtao-009',
@@ -105,7 +105,7 @@ final List<Product> sampleProducts = [
     packSize: 12,
     price: 23.99,
     imageUrl: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400',
-    description: 'Heritage craft lager - 12-pack. Premium positioning for upscale venues. 500ml bottles.',
+    description: 'Heritage craft lager - 12-pack. Premium positioning for upscale venues. 500ml brown bottles.',
   ),
   // TsingTao Stout
   Product(
@@ -116,8 +116,8 @@ final List<Product> sampleProducts = [
     abv: 5.2,
     packSize: 6,
     price: 11.99,
-    imageUrl: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400',
-    description: 'Rich dark stout with roasted malt flavors. Notes of coffee and chocolate. 330ml bottles.',
+    imageUrl: 'https://images.unsplash.com/photo-1566633806377-c1ce5a0c9609?w=400',
+    description: 'Rich dark stout with roasted malt flavors. Notes of coffee and chocolate. 330ml dark bottles.',
   ),
   Product(
     id: 'tsingtao-011',
@@ -127,8 +127,8 @@ final List<Product> sampleProducts = [
     abv: 5.2,
     packSize: 24,
     price: 42.99,
-    imageUrl: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400',
-    description: 'Dark stout - full case. Unique offering for diverse beer selections. 330ml bottles.',
+    imageUrl: 'https://images.unsplash.com/photo-1566633806377-c1ce5a0c9609?w=400',
+    description: 'Dark stout - full case. Unique offering for diverse beer selections. 330ml dark bottles.',
   ),
   // TsingTao White Ale
   Product(

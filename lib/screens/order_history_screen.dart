@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/account_provider.dart';
 import '../providers/orders_provider.dart';
 import '../widgets/order_summary_card.dart';
@@ -9,9 +11,11 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order History'),
+        title: Text(l10n.orderHistory),
         backgroundColor: const Color(0xFFD4A054),
         foregroundColor: Colors.white,
       ),
@@ -20,8 +24,8 @@ class OrderHistoryScreen extends StatelessWidget {
           final account = accountProvider.currentAccount;
 
           if (account == null) {
-            return const Center(
-              child: Text('No account selected'),
+            return Center(
+              child: Text(l10n.noAccountSelected),
             );
           }
 
@@ -39,7 +43,7 @@ class OrderHistoryScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'No orders yet',
+                    l10n.noOrdersYet,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[500],
@@ -47,7 +51,7 @@ class OrderHistoryScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Your order history will appear here',
+                    l10n.orderHistoryWillAppear,
                     style: TextStyle(color: Colors.grey[400]),
                   ),
                 ],
@@ -63,7 +67,7 @@ class OrderHistoryScreen extends StatelessWidget {
               return OrderSummaryCard(
                 order: order,
                 onTap: () {
-                  _showOrderDetails(context, order);
+                  _showOrderDetails(context, order, l10n);
                 },
               );
             },
@@ -73,7 +77,9 @@ class OrderHistoryScreen extends StatelessWidget {
     );
   }
 
-  void _showOrderDetails(BuildContext context, order) {
+  void _showOrderDetails(BuildContext context, order, AppLocalizations l10n) {
+    final dateFormat = DateFormat('MMM dd, yyyy');
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -134,9 +140,9 @@ class OrderHistoryScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const Text(
-                        'Order Items',
-                        style: TextStyle(
+                      Text(
+                        l10n.orders,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -189,7 +195,7 @@ class OrderHistoryScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('Qty: ${item.quantity}'),
+                                Text('${l10n.quantity}: ${item.quantity}'),
                                 Text(
                                   '\$${item.totalPrice.toStringAsFixed(2)}',
                                   style: const TextStyle(
@@ -206,9 +212,9 @@ class OrderHistoryScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Total',
-                            style: TextStyle(
+                          Text(
+                            l10n.total,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -223,11 +229,15 @@ class OrderHistoryScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      _buildInfoRow(Icons.calendar_today, l10n.ordered, dateFormat.format(order.orderDate)),
+                      const SizedBox(height: 8),
+                      _buildInfoRow(Icons.local_shipping, l10n.delivery, dateFormat.format(order.deliveryDate)),
                       if (order.notes.isNotEmpty) ...[
                         const SizedBox(height: 24),
-                        const Text(
-                          'Order Notes',
-                          style: TextStyle(
+                        Text(
+                          l10n.orderNotes,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -250,6 +260,19 @@ class OrderHistoryScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey[600]),
+        const SizedBox(width: 8),
+        Text(
+          '$label: $value',
+          style: TextStyle(color: Colors.grey[600], fontSize: 13),
+        ),
+      ],
     );
   }
 }

@@ -1,61 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
-class DeveloperMenuScreen extends StatefulWidget {
+class DeveloperMenuScreen extends StatelessWidget {
   const DeveloperMenuScreen({super.key});
 
   @override
-  State<DeveloperMenuScreen> createState() => _DeveloperMenuScreenState();
-}
-
-class _DeveloperMenuScreenState extends State<DeveloperMenuScreen> {
-  String _catFact = 'Press the button to get a cat fact!';
-  bool _isLoading = false;
-  final Dio _dio = Dio();
-
-  Future<void> _fetchCatFact() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final response = await _dio.get('https://catfact.ninja/fact');
-
-      if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        setState(() {
-          _catFact = data['fact'];
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _catFact = 'Failed to load cat fact: ${response.statusCode}';
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _catFact = 'Error: $e';
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Developer Menu'),
+        title: Text(l10n.developerMenu),
         backgroundColor: Colors.grey[800],
         foregroundColor: Colors.white,
       ),
       body: ListView(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16),
+          Padding(
+            padding: const EdgeInsets.all(16),
             child: Text(
-              'Developer Tools',
-              style: TextStyle(
+              l10n.developerMenu,
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
                 fontWeight: FontWeight.w500,
@@ -71,8 +37,8 @@ class _DeveloperMenuScreenState extends State<DeveloperMenuScreen> {
               ),
               child: const Icon(Icons.pets, color: Colors.orange),
             ),
-            title: const Text('Cat Facts'),
-            subtitle: const Text('API call test'),
+            title: Text(l10n.catFacts),
+            subtitle: Text(l10n.apiCallTest),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(
@@ -89,13 +55,13 @@ class _DeveloperMenuScreenState extends State<DeveloperMenuScreen> {
               ),
               child: const Icon(Icons.info_outline, color: Colors.blue),
             ),
-            title: const Text('App Info'),
-            subtitle: const Text('Version and build information'),
+            title: Text(l10n.appInfo),
+            subtitle: Text(l10n.versionAndBuild),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               showAboutDialog(
                 context: context,
-                applicationName: 'BrewDirect',
+                applicationName: l10n.appTitle,
                 applicationVersion: '1.0.0',
                 applicationLegalese: '© 2024 BrewDirect Demo',
                 children: [
@@ -121,11 +87,11 @@ class CatFactsScreen extends StatefulWidget {
 }
 
 class _CatFactsScreenState extends State<CatFactsScreen> {
-  String _catFact = 'Press the button to get a cat fact!';
+  String _catFact = '';
   bool _isLoading = false;
   final Dio _dio = Dio();
 
-  Future<void> _fetchCatFact() async {
+  Future<void> _fetchCatFact(AppLocalizations l10n) async {
     setState(() {
       _isLoading = true;
     });
@@ -155,9 +121,11 @@ class _CatFactsScreenState extends State<CatFactsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cat Facts'),
+        title: Text(l10n.catFacts),
         backgroundColor: Colors.orange,
         foregroundColor: Colors.white,
       ),
@@ -174,13 +142,13 @@ class _CatFactsScreenState extends State<CatFactsScreen> {
               ),
               const SizedBox(height: 32),
               Text(
-                _catFact,
+                _catFact.isEmpty ? l10n.pressButton : _catFact,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 32),
               ElevatedButton.icon(
-                onPressed: _isLoading ? null : _fetchCatFact,
+                onPressed: _isLoading ? null : () => _fetchCatFact(l10n),
                 icon: _isLoading
                     ? const SizedBox(
                         width: 20,
@@ -191,7 +159,7 @@ class _CatFactsScreenState extends State<CatFactsScreen> {
                         ),
                       )
                     : const Icon(Icons.refresh),
-                label: Text(_isLoading ? 'Loading...' : 'Get Cat Fact'),
+                label: Text(_isLoading ? l10n.loading : l10n.getCatFact),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
