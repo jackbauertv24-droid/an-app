@@ -72,7 +72,7 @@ class _DeveloperMenuScreenState extends State<DeveloperMenuScreen> {
               child: const Icon(Icons.pets, color: Colors.orange),
             ),
             title: const Text('Cat Facts'),
-            subtitle: const Text('Original app functionality'),
+            subtitle: const Text('API call test'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(
