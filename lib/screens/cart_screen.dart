@@ -106,21 +106,21 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _buildOrderSummary(BuildContext context, CartProvider cart, AppLocalizations l10n) {
-    return SafeArea(
-      top: false,
-      bottom: true,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        bottom: true,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
