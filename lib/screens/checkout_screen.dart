@@ -252,6 +252,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
       bottomSheet: SafeArea(
         top: false,
+        bottom: true,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
