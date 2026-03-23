@@ -209,6 +209,8 @@ class HomeScreen extends StatelessWidget {
                         SnackBar(
                           content: Text('${l10n.getProductName(product.id)} ${l10n.addToCart}'),
                           duration: const Duration(seconds: 1),
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.only(bottom: 80, left: 16, right: 16),
                           action: SnackBarAction(
                             label: l10n.cart,
                             onPressed: () {
